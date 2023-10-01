@@ -12,6 +12,7 @@
 import random, requests
 from datetime import datetime, date, timedelta
 
+import humanreadable as hr
 import dataworkers as dw
 import ingest
 
@@ -65,7 +66,14 @@ allPositions = dw.getallpositions(data)
 # monthToCheck = "08"
 # augustExdates = dw.returnExdateBasedOnMonth(data, monthToCheck)
 # print(augustExdates)
-# allExdatesByMonth = dw.returnAllExdatesBasedOnMonth(data)
+allExdatesByMonth = dw.returnAllExdatesBasedOnMonth(data)
 # print(allExdatesByMonth)
 # print(augustExdates, " and ", allExdatesByMonth[monthToCheck], " = ", allExdatesByMonth[monthToCheck] == augustExdates)
 
+# for i in allExdatesByMonth:
+#     print(i, allExdatesByMonth[i], "\n")
+#     print(i, list(allExdatesByMonth[i].get("Ex-Date")), "\n\n\n")
+
+octExdates = allExdatesByMonth["10"]
+
+print(octExdates)

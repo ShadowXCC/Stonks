@@ -71,9 +71,7 @@ def stringMoneyToMoney(toConvert):
 def returnExdateBasedOnMonth(data, month):
     if len(month) == 1: month = "0" + month
 
-    # r = data[data["Ex-Date"].str.contains(month + "/")]
     r = data.query('`Ex-Date`.str.contains(@month + "/")', engine='python')
-    # r = r.query('`Ex-Date`.str.contains("/" + @month + "/")', engine='python')
 
     toRemove = r[r['Ex-Date'].str.contains("/" + month + "/")].index
     r.drop(toRemove, inplace=True)
