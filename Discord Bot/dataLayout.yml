@@ -1,0 +1,15 @@
+"ticker": ticker
+"owner": owner
+"Relationship": relationship
+"transactionDate": transactionDate
+"transaction": transaction
+"cost": cost
+"numShares": numSharesTransacted
+"value": value
+"totalSharesOwned": totalSharesOwned
+"percentOfHoldingsChanged": percentOfHoldingChanged + "%"
+"SECForm4URL": SECForm4URL
+"SECForm4FilingDate": SECForm4FilingDate
+"timeBetweenTransactionAndToday": timeBetweenTransactionAndToday
+"timeBetweenFilingAndToday": timeBetweenFilingAndToday
+"timeBetweenTransactionAndFiling": timeBetweenTransactionAndFiling
