@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+
 def getNewlyPurchasedPositions(oldData, newData):
     # Get list of positions from both accounts
     # compare lists, IF IN NEW AND NOT IN OLD
@@ -22,16 +25,24 @@ def getFullySoldPositions(oldData, newData):
     oldAccountList = getAllPositions(oldData)
     newAccountList = getAllPositions(newData)
 
-    newPositionList = []
+    soldPositionList = []
 
     for acc in oldAccountList:
         if acc not in newAccountList:
-            newPositionList.append(acc)
+            soldPositionList.append(acc)
 
-    return newPositionList
+    return soldPositionList
 
 def getAllPositions(data):
     r = sorted(list(set(list(data["Symbol"]))))
+    if "Pending Activity" in r:
+        r.remove("Pending Activity")
+    if "SPAXX**" in r:
+        r.remove("SPAXX**")
+    if "FZFXX**" in r:
+        r.remove("FZFXX**")
+    if "FCASH**" in r:
+        r.remove("FCASH**") 
 
     return r
 
@@ -42,18 +53,89 @@ def listEachValueOfPosition(snapshots, ticker):
     for snap in snapshots:
         temp = ""
         #lookup ticker in snap
-        # data.loc[data['Account Name'] == account, 'Symbol']
         temp = (snapshots[snap].loc[snapshots[snap]['Symbol'] == ticker, 'Current Value']).to_string()
         temp = Decimal(temp[6:])
-        # r.append(snapshots[snap].loc[snapshots[snap]['Symbol'] == ticker, 'Current Value'])
-        # print(snapshots[snap].query('`Symbol` == @ticker'))
         r.append(temp)
-
     
     return r
 
-def listPositionPerSnap(snapshots, ticker):
-    return
+def listPositionPerSnapshot(snapshots, ticker):
+    r = []
+
+    for snap in snapshots:
+        temp = ""
+        #lookup ticker in snap
+        temp = snapshots[snap].query('`Symbol` == @ticker')
+        r.append(temp)
+
+    return r
+
+def returnAllQuantitiesAcrossAllSnapshots(snapshots):
+    r = {}
+    allUniquePositionsAcrossAllSnapshots = {}
+
+    for snap in snapshots:
+        r[snap] = {}
+        allPositions = getAllPositions(snapshots[snap])
+        for symbol in allPositions:
+            if symbol not in allUniquePositionsAcrossAllSnapshots:
+                allUniquePositionsAcrossAllSnapshots[symbol] = 1
+            else:
+                allUniquePositionsAcrossAllSnapshots[symbol] = allUniquePositionsAcrossAllSnapshots[symbol] + 1
+
+            temp = ""
+            temp = (snapshots[snap].loc[snapshots[snap]['Symbol'] == symbol, 'Quantity']).to_string()
+            temp = (temp[5:]).strip()
+            if "--" not in temp:
+                temp = Decimal(temp)
+                r[snap][symbol] = temp
+        
+
+    return (r, allUniquePositionsAcrossAllSnapshots)
+
+def checkForChangesInQuantityAcrossAllSnapshots(snapshots):
+    data = returnAllQuantitiesAcrossAllSnapshots(snapshots)
+    quantities = data[0]
+    allPositions = data[1] #allUniquePositionsAcrossAllSnapshots
+
+    differences = {}
+    quantitiesKeys = list(quantities.keys())
+
+    for i in range(0, len(quantities) - 1):
+        q1 = quantities[quantitiesKeys[i]]
+        q2 = quantities[quantitiesKeys[i + 1]]
+        # print("q1", q1)
+        # print("q2", q2)
+
+        temp = {}
+        for p in allPositions:
+            if (p in q1) and (p in q2):
+                # print("a", p, q2[p] - q1[p])
+                temp[p] = q2[p] - q1[p] #q2 - q1
+            # elif (p in q1) and (p not in q2):
+                # print("b", p, q1[p])
+            #     temp[p] = q1[p]
+            elif (p not in q1) and (p in q2):
+                # print("c", p, q2[p])
+                temp[p] = q2[p]
+            # elif (p not in q1) and (p not in q2):
+            #   temp[p] = q2[p]
+            elif (p in q1) and (p not in q2):
+                # print("d", p)
+                # This is almost the same as case B
+                temp[p] = -1 * q1[p]
+                
+        differences[i] = temp
+
+    return differences
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 ﻿Account Number,Account Name,Symbol,Description,Quantity,Last Price,Last Price Change,Current Value,Today's Gain/Loss Dollar,Today's Gain/Loss Percent,Total Gain/Loss Dollar,Total Gain/Loss Percent,Percent Of Account,Cost Basis Total,Average Cost Basis,Type
 Z05701620,Stocks,SPAXX**,HELD IN MONEY MARKET,,,,$35.87,,,,,1.29%,,,Cash
-Z05701620,Stocks,MSFT,MICROSOFT CORP,.7 8,$373.8156,+$3.9656,$273.81,+$3.96,+1.07%,+$59.11,+18.78%,13.45%,$314.70,$314.70,Cash
+Z05701620,Stocks,MSFT,MICROSOFT CORP,.69,$373.8156,+$3.9656,$273.81,+$3.96,+1.07%,+$59.11,+18.78%,13.45%,$314.70,$314.70,Cash
 Z05701620,Stocks,AAPL,APPLE INC,1.104,$191.00,+$1.31,$210.86,+$1.44,+0.69%,+$19.48,+10.18%,7.59%,$191.38,$173.35,Cash
 Z05701620,Stocks,GOOGL,ALPHABET INC CAP STK CL A,1,$135.67,+$0.36,$135.67,+$0.36,+0.26%,+$12.67,+10.30%,4.88%,$123.00,$123.00,Cash
 Z05701620,Stocks,Pending Activity,,,,,-$34.32,,,,,,,,
